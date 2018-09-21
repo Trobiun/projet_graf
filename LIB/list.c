@@ -7,7 +7,7 @@
 struct list_node {
   int value;
   struct list_node *next;
-  // struct list_node *prev;
+  struct list_node *prev;
 };
 
 void list_create(struct list *self) {
