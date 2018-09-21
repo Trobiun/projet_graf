@@ -4,15 +4,11 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 struct list_node;
 
 struct list {
   struct list_node *first;
-  // struct list_node *last;
+  struct list_node *last;
 };
 
 /*
@@ -71,27 +67,10 @@ size_t list_size(const struct list *self);
 size_t list_search(const struct list *self, int value);
 
 /*
- * Import an array in a list
- */
-void list_import(struct list *self, const int *other, size_t size);
-
-/*
  * Print a list to stdout
  */
 void list_dump(const struct list *self);
 
-/*
- * Tell if a list is sorted
- */
-bool list_is_sorted(const struct list *self);
 
-/*
- * Sort a list with merge sort
- */
-void list_merge_sort(struct list *self);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // LIST_H
