@@ -72,5 +72,4 @@ size_t list_search(const struct list *self, int value);
 void list_dump(const struct list *self);
 
 
-
 #endif // LIST_H
