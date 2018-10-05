@@ -1,0 +1,14 @@
+#ifndef MENU_H
+#define MENU_H
+
+#define COMMAND_QUIT -1
+#define COMMAND_CREATE 1
+#define COMMAND_LOAD 2
+#define COMMAND_ADD_NODE 3
+#define COMMAND_ADD_EDGE 4
+#define COMMAND_REMOVE_NODE 5
+#define COMMAND_REMOVE_EDGE 6
+#define COMMAND_VIEW_GRAPH 7
+#define COMMAND_SAVE_GRAPH 8
+
+#endif // MENU_H
