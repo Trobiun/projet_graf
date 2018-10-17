@@ -16,4 +16,6 @@ void graph_destroy(struct graph *self);
 
 void graph_add_neighbour(struct graph *self, size_t nbNode, int neighbour, int weight);
 
+void graph_dump(struct graph *self);
+
 #endif // GRAPH_H

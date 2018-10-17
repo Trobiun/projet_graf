@@ -1,7 +1,7 @@
 EXEC=main
 MENU=menu
 SRC=LIB/graph.c LIB/neighbour.c
-OBJ=array.o graph.o neighbour.o
+OBJ=graph.o neighbour.o
 CC=gcc
 CLFAGS=-Wall
 LDFLAGS=-lm

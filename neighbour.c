@@ -7,50 +7,72 @@ void neighbour_create(struct neighbour *self, int neighbour, int weight) {
 	self->previousNeighbour = NULL;
 }
 
-void neighbour_destroy(struct neighbour *self) {
-	if (self->nextNeighbour != NULL) {
-		neighbour_destroy(self->nextNeighbour);
-	}
-	if (self->previousNeighbour != NULL) {
-		neighbour_destroy(self->previousNeighbour);
-	}
-}
+// void neighbour_destroy(struct neighbour *self) {
+// 	if (self != NULL) {
+// 		struct neighbour *next = self->previousNeighbour;
+// 		next->nextNeighbour = self->nextNeighbour;
+// 		(next->nextNeighbour)->previousNeighbour = next;
+// 		self = next;
+// 	}
+// }
 
-void neighbour_add_back(struct neighbour **self, int neighbour, int weight) {
-	if (self == NULL) {
-		/*struct neighbour *ajout = malloc(sizeof(struct neighbour));
-		ajout->neighbour = neighbour;
-		ajout->weight = weight;
-		ajout->nextNeighbour = ajout;
-		ajout->previousNeighbour = ajout;
-		*self = ajout;*/
-	}
-	else {
-		struct neighbour *last = (*self)->previousNeighbour;
-		struct neighbour *ajout = malloc(sizeof(struct neighbour));
-		if (ajout != NULL) {
-			ajout->neighbour = neighbour;
-			ajout->weight = weight;
-			
-			(*self)->nextNeighbour = ajout;
-			
-			ajout->nextNeighbour = *self;
-			ajout->previousNeighbour = last;
-			
-			last->nextNeighbour = ajout;
+void neighbour_destroy_start(struct neighbour **start) {
+	if (start != NULL) {
+		struct neighbour *last = (*start)->previousNeighbour;
+		if (last == *start) {
+			free(*start);
+			*start = NULL;
+		}
+		else {
+			struct neighbour *next = (*start)->previousNeighbour;
+			next->nextNeighbour = (*start)->nextNeighbour;
+			(next->nextNeighbour)->previousNeighbour = next;
+			free(*start);
+			*start = next;
 		}
 	}
 }
 
-void neighbour_add_front(struct neighbour *self, int neighbour, int weight) {
-	if (self != NULL) {
-		struct neighbour *ajout = malloc(sizeof(struct neighbour));
-		ajout->weight = weight;
-		ajout->neighbour = neighbour;
+void neighbour_add_end(struct neighbour **end, struct neighbour *add) {
+	if (end == NULL) {
+// 		struct neighbour *ajout = malloc(sizeof(struct neighbour));
+// 		ajout->neighbour = neighbour;
+// 		ajout->weight = weight;
+// 		ajout->nextNeighbour = ajout;
+// 		ajout->previousNeighbour = ajout;
+// 		*self = ajout;
+		
+	}
+	else {
+		struct neighbour *last = (*end)->previousNeighbour;
+// 		struct neighbour *ajout = malloc(sizeof(struct neighbour));
+// 		if (ajout != NULL) {
+// 			ajout->neighbour = neighbour;
+// 			ajout->weight = weight;
+			
+			(*end)->nextNeighbour = add;
+			
+			add->nextNeighbour = (*end);
+			add->previousNeighbour = last;
+			
+			last->nextNeighbour = add;
+// 		}
 	}
 }
 
-void neighbour_remove(struct neighbour *self, int value) {
+void neighbour_add_start(struct neighbour **start, struct neighbour *add) {
+	if (start != NULL && add != NULL) {
+		struct neighbour *last = (*start)->previousNeighbour;
+		add->nextNeighbour = *start;
+		add->previousNeighbour = last;
+		
+		last->nextNeighbour = add;
+		(*start)->previousNeighbour = add;
+		*start = add;
+	}
+}
+
+void neighbour_remove(struct neighbour *self, int neighbour) {
 	if (self != NULL) {
 		
 	}
@@ -63,7 +85,13 @@ bool has_neighbour(struct neighbour *self) {
 }
 
 void neighbour_dump(struct neighbour *self) {
+	struct neighbour *node;
 	if (self != NULL) {
-		
+		node = self;
+		do {
+			printf("%d, ", node->neighbour);
+			node = node->nextNeighbour;
+		}
+		while (node->neighbour != -1);
 	}
 }
