@@ -3,16 +3,15 @@
 
 #include <stdbool.h>
 #include "array.h"
-
-struct neighbour;
+#include "neighbour.h"
 
 struct graph {
 	bool isDirected;
 	size_t nbMaxNodes;
-	struct array adjList;
+	struct neighbour *adjList;
 };
 
-void create_graph(struct graph *self);
+void create_graph(struct graph *self, bool isDirected, size_t nbMaxNodes);
 
 void graph_destroy(struct graph *self);
 

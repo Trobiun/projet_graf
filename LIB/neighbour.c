@@ -9,10 +9,10 @@ void neighbour_create(struct neighbour *self, int neighbour, int weight) {
 
 void neighbour_destroy(struct neighbour *self) {
 	if (self->nextNeighbour != NULL) {
-		list_node_destroy(self->nextNeighbour);
+		neighbour_destroy(self->nextNeighbour);
 	}
 	if (self->previousNeighbour != NULL) {
-		list_node_destroy(self->previousNeighbour);
+		neighbour_destroy(self->previousNeighbour);
 	}
 }
 
