@@ -1,23 +1,28 @@
-EXEC=main
-MENU=menu
-SRC=LIB/graph.c LIB/neighbour.c
-OBJ=graph.o neighbour.o
+SRCDIR=SRC
+OBJDIR=OBJ
+LIBDIR=LIB
+BINDIR=BIN
+INCLUDEDIR=INCLUDE
+
+EXEC=$(BINDIR)/testgraph
+SRC=$(wildcard $(SRCDIR)/*.c)
+OBJ=$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 CC=gcc
-CLFAGS=-Wall
+CFLAGS=-Wall -I$(INCLUDEDIR)
 LDFLAGS=-lm
 
-$(EXEC) : main.c $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(EXEC) $?
+all: $(EXEC)
+	
 
-$(MENU) : SRC/menu.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(MENU) $?
+$(EXEC): $(OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(EXEC) $^
 
-%.o : %.c %.h
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(OBJ): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-clean :
-	rm -f *.o
+.PHONY: clean veryclean
+clean:
+	rm -f $(OBJ)
 
-veryclean : clean
+veryclean: clean
 	rm -f $(EXEC)
-	rm -f $(MENU)
