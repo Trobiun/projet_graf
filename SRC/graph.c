@@ -17,7 +17,6 @@ void graph_destroy(struct graph *self) {
 		while (self->adjList[i] != NULL) {
 			neighbour_destroy_start(&self->adjList[i]);
 		}
-// 		free(self->adjList[i]);
 	}
 	free(self->adjList);
 }
@@ -32,18 +31,37 @@ void graph_add_neighbour(struct graph *self, size_t nbNode, int neighbour, int w
 		sentinel->previousNeighbour = add;
 		add->nextNeighbour = sentinel;
 		add->previousNeighbour = sentinel;
-// 		neighbour_add_end(&add, sentinel);
+		neighbour_add_end(&add, sentinel);
 		self->adjList[nbNode] = add;
 	}
 	else {
-		neighbour_add_start(self->adjList + nbNode, add);
+		neighbour_add_end(self->adjList + nbNode, add);
 	}
 }
 
-void graph_dump(struct graph *self) {
+void graph_dump(struct graph *self, FILE* file) {
+	fprintf(file, "# maximum number of nodes\n%zu\n", self->nbMaxNodes);
+	fprintf(file, "# directed\n");
+	if (self->isDirected) {
+		fprintf(file, "y");
+	}
+	else {
+		fprintf(file, "n");
+	}
+	fprintf(file, "\n# nodes: neighbours\n");
 	size_t i;
 	for (i = 0; i < self->nbMaxNodes; i++) {
-		neighbour_dump(self->adjList[i]);
-		printf("\n");
+		fprintf(file, "%zu: ", i);
+		neighbour_dump(self->adjList[i], file);
+		fprintf(file, "\n");
 	}
 }
+
+
+
+
+
+
+
+
+

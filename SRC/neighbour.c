@@ -33,30 +33,13 @@ void neighbour_destroy_start(struct neighbour **start) {
 	}
 }
 
-void neighbour_add_end(struct neighbour **end, struct neighbour *add) {
-	if (end == NULL) {
-// 		struct neighbour *ajout = malloc(sizeof(struct neighbour));
-// 		ajout->neighbour = neighbour;
-// 		ajout->weight = weight;
-// 		ajout->nextNeighbour = ajout;
-// 		ajout->previousNeighbour = ajout;
-// 		*self = ajout;
-		
-	}
-	else {
-		struct neighbour *last = (*end)->previousNeighbour;
-// 		struct neighbour *ajout = malloc(sizeof(struct neighbour));
-// 		if (ajout != NULL) {
-// 			ajout->neighbour = neighbour;
-// 			ajout->weight = weight;
-			
-			(*end)->nextNeighbour = add;
-			
-			add->nextNeighbour = (*end);
-			add->previousNeighbour = last;
-			
-			last->nextNeighbour = add;
-// 		}
+void neighbour_add_end (struct neighbour **start, struct neighbour *add) {
+	if (start != NULL && *start != NULL && add != NULL) {
+		struct neighbour *last = (*start)->previousNeighbour;
+		add->nextNeighbour = (*start);
+		(*start)->previousNeighbour = add;
+		add->previousNeighbour = last;
+		last->nextNeighbour = add;
 	}
 }
 
@@ -65,7 +48,6 @@ void neighbour_add_start(struct neighbour **start, struct neighbour *add) {
 		struct neighbour *last = (*start)->previousNeighbour;
 		add->nextNeighbour = *start;
 		add->previousNeighbour = last;
-		
 		last->nextNeighbour = add;
 		(*start)->previousNeighbour = add;
 		*start = add;
@@ -85,7 +67,7 @@ bool has_neighbour(struct neighbour *self) {
 	return false;
 }
 
-void neighbour_dump(struct neighbour *self) {
+void neighbour_dump(struct neighbour *self, FILE* file) {
 	struct neighbour *node;
 	if (self != NULL) {
 		node = self;
@@ -96,3 +78,4 @@ void neighbour_dump(struct neighbour *self) {
 		while (node->neighbour != -1);
 	}
 }
+

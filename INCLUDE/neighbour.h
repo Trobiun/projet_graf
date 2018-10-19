@@ -14,11 +14,11 @@ struct neighbour {
 
 void neighbour_create(struct neighbour *self, int neighbour, int weight);
 
-// void neighbour_destroy(struct neighbour *self);
+//void neighbour_destroy(struct neighbour *self);
 
 void neighbour_destroy_start(struct neighbour **start);
 
-void neighbour_add_end(struct neighbour **end, struct neighbour *add);
+void neighbour_add_end(struct neighbour **start, struct neighbour *add);
 
 void neighbour_add_start(struct neighbour **start, struct neighbour *add);
 
@@ -26,7 +26,7 @@ void neighbour_remove(struct neighbour *self, int remove);
 
 bool has_neighbour(struct neighbour *self);
 
-void neighbour_dump(struct neighbour *self);
+void neighbour_dump(struct neighbour *self, FILE* file);
 
 
 #endif // NEIGHBOUR_H
