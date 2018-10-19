@@ -39,7 +39,6 @@ void menu_set_option(struct menu *self, size_t index, int code, int result, char
 }
 
 
-
 void create_first_menu(struct menu *self) {
 	self->nbOptions = NB_OPTIONS_FIRST_MENU + 1;
 	self->options = calloc(self->nbOptions, sizeof(struct option*));
@@ -139,13 +138,16 @@ void global_menu_destroy(struct global_menu *self) {
 }
 
 bool menu_is_valid_option(struct menu *self, int option) {
-	return option >= 0 && option < self->nbOptions;
+	return option > 0 && option < self->nbOptions;
 }
 
 int menu_show(struct menu *self) {
+	if (self == NULL) {
+		return -2;
+	}
 	int choix = 0;
-	int res;
-	size_t index = -2;
+	int res = -1;
+	size_t index;
 	printf("\n");
 	for (index = 0; index < self->nbOptions; index++) {
 		printf("%d : %s\n", self->options[index]->codeCommand, self->options[index]->text);
