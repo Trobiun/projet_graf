@@ -1,10 +1,12 @@
 #include "neighbour.h"
 
 void neighbour_create(struct neighbour *self, int neighbour, int weight) {
-	self->neighbour = neighbour;
-	self->weight = weight;
-	self->nextNeighbour = NULL;
-	self->previousNeighbour = NULL;
+	if (self != NULL) {
+		self->neighbour = neighbour;
+		self->weight = weight;
+		self->nextNeighbour = NULL;
+		self->previousNeighbour = NULL;
+	}
 }
 
 // void neighbour_destroy(struct neighbour *self) {
@@ -33,7 +35,7 @@ void neighbour_destroy_start(struct neighbour **start) {
 	}
 }
 
-void neighbour_add_end (struct neighbour **start, struct neighbour *add) {
+void neighbour_add_end(struct neighbour **start, struct neighbour *add) {
 	if (start != NULL && *start != NULL && add != NULL) {
 		struct neighbour *last = (*start)->previousNeighbour;
 		add->nextNeighbour = (*start);
@@ -60,22 +62,29 @@ void neighbour_remove(struct neighbour *self, int neighbour) {
 	}
 }
 
-bool has_neighbour(struct neighbour *self) {
+bool has_neighbour(struct neighbour *self, int neighbour) {
 	if (self != NULL) {
-		
+		struct neighbour *node = self;
+		struct neighbour *last = self->previousNeighbour;
+		while (node != last) {
+			if (node->neighbour == neighbour) {
+				return true;
+			}
+		}
 	}
 	return false;
 }
 
 void neighbour_dump(struct neighbour *self, FILE* file) {
-	struct neighbour *node;
 	if (self != NULL) {
+		struct neighbour *node;
+		struct neighbour *last = self->previousNeighbour;
 		node = self;
 		do {
 			printf("%d, ", node->neighbour);
 			node = node->nextNeighbour;
 		}
-		while (node->neighbour != -1);
+		while (node != last);
 	}
 }
 

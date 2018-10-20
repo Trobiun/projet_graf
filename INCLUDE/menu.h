@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-//pour les commandes utilisées
+
 #define COMMAND_CODE_QUIT -1
 
 #define COMMAND_CODE_CREATE 1
@@ -18,26 +18,26 @@
 #define COMMAND_CODE_VIEW_GRAPH 7
 #define COMMAND_CODE_SAVE_GRAPH 8
 
-
+//structure pour les options des menus
 struct option {
 	int codeCommand;
-	int result; //pour l'option quitter
+	int result;
 	char *text;
 };
 
+//structure pour les menus
 struct menu {
 	struct option **options;
 	size_t nbOptions;
 };
 
+//structure pour gérer les deux menus
 struct global_menu {
-	struct menu *firstMenu;
-	struct menu *mainMenu;
-	bool firstMenuToShow;
-	int selectedOption;
+	struct menu *firstMenu; //premier menu pour créer ou charger un graphe, et quitter
+	struct menu *mainMenu; //menu principal de l'application
+	bool firstMenuToShow; //booléen pour savoir s'il faut afficher le premier menu ou le principal
+	int selectedOption; //l'option sélectionnée par l'utilisateur, doit correspondre à une des constantes de préprocesseur commençant par "COMMAND_CODE"
 };
-
-void option_create(struct option *self, int code, char* text);
 
 void option_destroy(struct option *self);
 
@@ -45,6 +45,9 @@ void menu_create(struct menu *self);
 
 void menu_destroy(struct menu *self);
 
+/*
+ * Définit une option pour un menu, seulement si celle-ci n'est pas déjà définie dans le menu
+ */
 void menu_set_option(struct menu *self, size_t index, int code, int result, char *text);
 
 void global_menu_create(struct global_menu *self);

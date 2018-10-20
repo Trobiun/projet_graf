@@ -1,5 +1,6 @@
 #include "menu.h"
 
+#define ERREUR_SAISIE_OPTION -2
 
 #define NB_OPTIONS_FIRST_MENU 2
 #define NB_OPTIONS_MAIN_MENU 6
@@ -9,19 +10,13 @@
 #define COMMAND_CODE_QUIT_MAIN_MENU 9
 
 
-void option_create_full(struct option *self, int code, int result, char *text) {
+void option_create(struct option *self, int code, int result, char *text) {
 	if (self != NULL) {
 		self->codeCommand = code;
 		self->result = result;
 		if (text != NULL) {
 			self->text = strdup(text);
 		}
-	}
-}
-
-void option_create(struct option *self, int code, char *text) {
-	if (self != NULL) {
-		option_create_full(self, code, code, text);
 	}
 }
 
@@ -32,143 +27,150 @@ void option_destroy(struct option *self) {
 }
 
 void menu_set_option(struct menu *self, size_t index, int code, int result, char *text) {
-	if (self != NULL && index >= 0 && index < self->nbOptions) {
+	if (self != NULL && index >= 0 && index < self->nbOptions && self->options[index] == NULL) {
 		self->options[index] = malloc(sizeof(struct option));
-		option_create_full(self->options[index], code, result, text);
+		option_create(self->options[index], code, result, text);
 	}
 }
 
-
 void create_first_menu(struct menu *self) {
-	self->nbOptions = NB_OPTIONS_FIRST_MENU + 1;
-	self->options = calloc(self->nbOptions, sizeof(struct option*));
-	
-	size_t codeCommand = COMMAND_CODE_CREATE;
-	size_t index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "create graph");
-	
-	codeCommand = COMMAND_CODE_LOAD;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "load graph");
-	
-	codeCommand = COMMAND_CODE_QUIT_FIRST_MENU;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, COMMAND_CODE_QUIT, "quit");
-	
-	
-// 	menu_set_option(self, index, COMMAND_CODE_LOAD, COMMAND_CODE_CREATE, "create graph");
-// 	self->options[COMMAND_CODE_CREATE - 1] = malloc(sizeof(struct option));
-// 	option_create(self->options[COMMAND_CODE_CREATE - 1], COMMAND_CODE_CREATE, "create graph");
-// 	self->options[COMMAND_CODE_LOAD - 1] = malloc(sizeof(struct option));
-// 	option_create(self->options[COMMAND_CODE_LOAD - 1], COMMAND_CODE_LOAD, "load graph");
-// 	self->options[COMMAND_CODE_QUIT_FIRST_MENU - 1] = malloc(sizeof(struct option));
-// 	option_create_full(self->options[COMMAND_CODE_QUIT_FIRST_MENU - 1], COMMAND_CODE_QUIT_FIRST_MENU, COMMAND_CODE_QUIT, "quit");
+	if (self != NULL) {
+		self->nbOptions = NB_OPTIONS_FIRST_MENU + 1;
+		self->options = calloc(self->nbOptions, sizeof(struct option*));
+		size_t i;
+		for (i = 0; i < self->nbOptions; i++) {
+			self->options[i] = NULL;
+		}
+		
+		size_t codeCommand = COMMAND_CODE_CREATE;
+		//les numéros d'option pour les menus commençant par 1
+		//et les indices de tableaux commençant par 0, on décrémente de 1 pour avoir l'indice
+		size_t index = codeCommand - 1;
+		menu_set_option(self, index, codeCommand, codeCommand, "create graph");
+		
+		codeCommand = COMMAND_CODE_LOAD;
+		index = codeCommand - 1;
+		menu_set_option(self, index, codeCommand, codeCommand, "load graph");
+		
+		codeCommand = COMMAND_CODE_QUIT_FIRST_MENU;
+		index = codeCommand - 1;
+		menu_set_option(self, index, codeCommand, COMMAND_CODE_QUIT, "quit");
+	}
 }
 
 void create_main_menu(struct menu *self) {
-	self->nbOptions = NB_OPTIONS_MAIN_MENU + 1;
-	self->options = calloc(self->nbOptions, sizeof(struct option*));
-	
-	size_t codeCommand = COMMAND_CODE_ADD_NODE;
-	size_t index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "add node");
-	
-	codeCommand = COMMAND_CODE_ADD_EDGE;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "add edge");
-	
-	codeCommand = COMMAND_CODE_REMOVE_NODE;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "remove node");
-	
-	codeCommand = COMMAND_CODE_REMOVE_EDGE;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "remove edge");
-	
-	codeCommand = COMMAND_CODE_VIEW_GRAPH;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "view graph");
-	
-	codeCommand = COMMAND_CODE_SAVE_GRAPH;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, codeCommand, "save graph");
-	
-	codeCommand = COMMAND_CODE_QUIT_MAIN_MENU;
-	index = codeCommand - 1;
-	menu_set_option(self, index, codeCommand, COMMAND_CODE_QUIT, "quit");
-	
-// 	self->options[COMMAND_CODE_ADD_NODE] = malloc(sizeof(struct option));
-// 	option_create_full(self->options[COMMAND_CODE_ADD_NODE], COMMAND_CODE_ADD_NODE - 2, COMMAND_CODE_ADD_NODE, "add node");
-// 	self->options[1] = malloc(sizeof(struct option));
-// 	option_create(self->options[1], COMMAND_CODE_ADD_EDGE, "add edge");
-// 	self->options[2] = malloc(sizeof(struct option));
-// 	option_create(self->options[2], COMMAND_CODE_REMOVE_NODE, "remove node");
-// 	self->options[3] = malloc(sizeof(struct option));
-// 	option_create(self->options[3], COMMAND_CODE_REMOVE_EDGE, "remove edge");
-// 	self->options[4] = malloc(sizeof(struct option));
-// 	option_create(self->options[4], COMMAND_CODE_VIEW_GRAPH, "view graph");
-// 	self->options[5] = malloc(sizeof(struct option));
-// 	option_create(self->options[5], COMMAND_CODE_SAVE_GRAPH, "save graph");
-// 	self->options[6] = malloc(sizeof(struct option));
-// 	option_create_full(self->options[6], COMMAND_CODE_QUIT_MAIN_MENU, COMMAND_CODE_QUIT, "quit");
+	if (self != NULL) {
+		self->nbOptions = NB_OPTIONS_MAIN_MENU + 1;
+		self->options = calloc(self->nbOptions, sizeof(struct option*));
+		size_t i;
+		for (i = 0; i < self->nbOptions; i++) {
+			self->options[i] = NULL;
+		}
+		
+		//utilisé pour afficher le menu principal avec des options commençant par 1 au lieu de 3
+		//(les options pour créer ou charger un graphe n'étant plus utiles)
+		size_t decrement = NB_OPTIONS_FIRST_MENU + 1;
+		
+		size_t codeCommand = COMMAND_CODE_ADD_NODE;
+		size_t index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "add node");
+		
+		codeCommand = COMMAND_CODE_ADD_EDGE;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "add edge");
+		
+		codeCommand = COMMAND_CODE_REMOVE_NODE;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "remove node");
+		
+		codeCommand = COMMAND_CODE_REMOVE_EDGE;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "remove edge");
+		
+		codeCommand = COMMAND_CODE_VIEW_GRAPH;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "view graph");
+		
+		codeCommand = COMMAND_CODE_SAVE_GRAPH;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "save graph");
+		
+		codeCommand = COMMAND_CODE_QUIT_MAIN_MENU;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, COMMAND_CODE_QUIT, "quit");
+	}
 }
 
 void menu_destroy(struct menu *self) {
-	for (size_t i = 0; i < self->nbOptions; i++) {
-		option_destroy(self->options[i]);
-		free(self->options[i]);
+	if (self != NULL) {
+		for (size_t i = 0; i < self->nbOptions; i++) {
+			option_destroy(self->options[i]);
+			free(self->options[i]);
+		}
+		free(self->options);
 	}
-	free(self->options);
 }
 
 void global_menu_create(struct global_menu *self) {
-	self->firstMenuToShow = true;
-	self->selectedOption = 0;
-	self->firstMenu = malloc(sizeof(struct menu));
-	self->mainMenu = malloc(sizeof(struct menu));
-	create_first_menu(self->firstMenu);
-	create_main_menu(self->mainMenu);
+	if (self != NULL) {
+		self->firstMenuToShow = true;
+		self->selectedOption = 0;
+		self->firstMenu = malloc(sizeof(struct menu));
+		self->mainMenu = malloc(sizeof(struct menu));
+		create_first_menu(self->firstMenu);
+		create_main_menu(self->mainMenu);
+	}
 }
 
 void global_menu_destroy(struct global_menu *self) {
-	menu_destroy(self->firstMenu);
-	free(self->firstMenu);
-	menu_destroy(self->mainMenu);
-	free(self->mainMenu);
+	if (self != NULL) {
+		menu_destroy(self->firstMenu);
+		free(self->firstMenu);
+		menu_destroy(self->mainMenu);
+		free(self->mainMenu);
+	}
 }
 
 bool menu_is_valid_option(struct menu *self, int option) {
-	return option > 0 && option < self->nbOptions;
+	bool res = false;
+	if (self != NULL) {
+		res = option > 0 && option <= self->nbOptions;
+	}
+	return res;
 }
 
 int menu_show(struct menu *self) {
-	if (self == NULL) {
-		return -2;
-	}
-	int choix = 0;
-	int res = -1;
-	size_t index;
-	printf("\n");
-	for (index = 0; index < self->nbOptions; index++) {
-		printf("%d : %s\n", self->options[index]->codeCommand, self->options[index]->text);
-	}
-	scanf("%d", &choix);
-	if (menu_is_valid_option(self, choix)) {
-		res =  self->options[choix - 1]->result;
+	int res = ERREUR_SAISIE_OPTION;
+	if (self != NULL) {
+		int choix = 0;
+		size_t index;
+		printf("\n");
+		for (index = 0; index < self->nbOptions; index++) {
+			printf("%d : %s\n", self->options[index]->codeCommand, self->options[index]->text);
+		}
+		scanf("%d", &choix);
+		getchar();
+		if (menu_is_valid_option(self, choix)) {
+			res =  self->options[choix - 1]->result;
+		}
 	}
 	return res;
 }
 
 int global_menu_show(struct global_menu *self) {
-	int choix = 0;
 	int res = 0;
-	if (self->firstMenuToShow) {
-		choix = menu_show(self->firstMenu);
-		self->firstMenuToShow = false;
+	if (self != NULL) {
+		int choix = 0;
+		if (self->firstMenuToShow) {
+			choix = menu_show(self->firstMenu);
+			if (choix != ERREUR_SAISIE_OPTION) {
+				self->firstMenuToShow = false;
+			}
+		}
+		else {
+			choix = menu_show(self->mainMenu);
+		}
+		self->selectedOption = choix;
 	}
-	else {
-		choix = menu_show(self->mainMenu);
-	}
-	self->selectedOption = choix;
 	return res;
 }

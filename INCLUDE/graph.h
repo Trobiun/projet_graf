@@ -10,7 +10,7 @@ struct graph {
 	struct neighbour **adjList;
 };
 
-void create_graph(struct graph *self, bool isDirected, size_t nbMaxNodes);
+void graph_create(struct graph *self, bool isDirected, size_t nbMaxNodes);
 
 void graph_destroy(struct graph *self);
 

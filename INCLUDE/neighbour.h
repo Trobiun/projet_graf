@@ -24,7 +24,7 @@ void neighbour_add_start(struct neighbour **start, struct neighbour *add);
 
 void neighbour_remove(struct neighbour *self, int remove);
 
-bool has_neighbour(struct neighbour *self);
+bool has_neighbour(struct neighbour *self, int neighbour);
 
 void neighbour_dump(struct neighbour *self, FILE* file);
 
