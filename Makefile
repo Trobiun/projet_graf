@@ -7,18 +7,30 @@ INCLUDEDIR=INCLUDE
 EXEC=$(BINDIR)/testgraph
 SRC=$(wildcard $(SRCDIR)/*.c)
 OBJ=$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+LIBGRAPH=$(LIBDIR)/libgraph.a
+LIBLIST=$(LIBDIR)/liblist.a
+LIBS=$(LIBGRAPH) $(LIBLIST)
 CC=gcc
 CFLAGS=-Wall -I$(INCLUDEDIR)
-LDFLAGS=-lm
+LDFLAGS=-L$(LIBDIR) -lgraph -llist
 
+.PHONY: all
 all: $(EXEC)
 	
+.PHONY: libs
+libs: $(LIBS)
 
-$(EXEC): $(OBJ)
+$(EXEC): $(OBJDIR)/main.o $(OBJDIR)/menu.o $(LIBS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $(EXEC) $^
 
+$(LIBGRAPH): $(OBJDIR)/graph.o
+	ar rcs $@ $?
+
+$(LIBLIST): $(OBJDIR)/neighbour.o
+	ar rcs $@ $?
+
 $(OBJ): $(OBJDIR)/%.o : $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -c $< -o $@
 
 .PHONY: clean veryclean
 clean:
@@ -26,3 +38,4 @@ clean:
 
 veryclean: clean
 	rm -f $(EXEC)
+	rm -f $(LIBS)

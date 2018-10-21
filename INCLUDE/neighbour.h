@@ -18,8 +18,6 @@ size_t index_to_nb_node(size_t index);
 
 void neighbour_create(struct neighbour *self, int neighbour, int weight);
 
-//void neighbour_destroy(struct neighbour *self);
-
 void neighbour_destroy_start(struct neighbour **start);
 
 void neighbour_add_end(struct neighbour **start, struct neighbour *add);
