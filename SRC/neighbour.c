@@ -1,7 +1,6 @@
 #include "neighbour.h"
 
 
-
 void neighbour_create(struct neighbour *self, int neighbour, int weight) {
 	if (self != NULL) {
 		self->neighbour = neighbour;
@@ -10,15 +9,6 @@ void neighbour_create(struct neighbour *self, int neighbour, int weight) {
 		self->previousNeighbour = NULL;
 	}
 }
-
-// void neighbour_destroy(struct neighbour *self) {
-// 	if (self != NULL) {
-// 		struct neighbour *node = self->previousNeighbour;
-// 		node->nextNeighbour = self->nextNeighbour;
-// 		(node->nextNeighbour)->previousNeighbour = node;
-// 		self = node;
-// 	}
-// }
 
 void neighbour_destroy_start(struct neighbour **start) {
 	if (start != NULL) {
