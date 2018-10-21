@@ -119,10 +119,11 @@ bool main_graph_remove_node(struct graph *graph) {
 	getchar();
 	bool nodeExists = graph_node_exists(graph, nbNode);
 	if (!nodeExists) {
-		fprintf(stderr, "Le noeud %d n'existe pas.\n", nbNode);
+		fprintf(stderr, "Le noeud %zu n'existe pas.\n", nbNode);
 		return false;
 	}
 	graph_remove_node(graph, nbNode);
+	return true;
 }
 
 
