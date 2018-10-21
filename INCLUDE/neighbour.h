@@ -47,7 +47,7 @@ void neighbour_add_end(struct neighbour **start, struct neighbour *add);
  * Params :	self	: le pointeur vers la structure de type neighbour auquel il faut supprimer un noeud
  * 			nbNode	: le numéro du noeud à supprimer dans la liste chaînée
  */
-void neighbour_remove(struct neighbour *self, int nbNode);
+void neighbour_remove(struct neighbour **start, int nbNode);
 
 /*
  * Vérifie si un noeud est déjà présent dans une liste chaînée.

@@ -14,10 +14,10 @@ CC=gcc
 CFLAGS=-Wall -I$(INCLUDEDIR)
 LDFLAGS=-L$(LIBDIR) -lgraph -llist
 
-.PHONY: all
+.PHONY: all libs
 all: $(EXEC)
 	
-.PHONY: libs
+
 libs: $(LIBS)
 
 $(EXEC): $(OBJDIR)/main.o $(OBJDIR)/menu.o $(LIBS)

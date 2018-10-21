@@ -20,7 +20,7 @@ struct graph *main_create_graph() {
 	if (nbNodes > 0) {
 		res = malloc(sizeof(struct graph));
 		if (res != NULL) {
-			fprintf(stdout, "Voulez-vous que le graphe soit dirigé ? [Y/n]");
+			fprintf(stdout, "Voulez-vous que le graphe soit dirigé ? [Y/n]\n");
 			scanf("%c", &charDirected);
 			if (charDirected != 'Y' && charDirected != 'y' && charDirected != '\n') {
 				directed = false;
@@ -43,6 +43,7 @@ struct graph *main_load_graph() {
 	FILE *file;
 	fprintf(stdout, "Entrez le nom du fichier à charger.\n");
 	scanf("%s", filename);
+	getchar();
 	file = fopen(filename, "r");
 	//faire le chargement du graphe
 	fclose(file);
@@ -58,6 +59,7 @@ bool main_graph_add_node(struct graph *graph) {
 	size_t nbNode = 0;
 	fprintf(stdout, "Entrez le numéro du noeud que vous voulez ajouter.\n");
 	scanf("%zu", &nbNode);
+	getchar();
 	bool res = graph_create_node(graph, nbNode);
 	return res;
 }
@@ -73,20 +75,76 @@ bool main_graph_add_edge(struct graph *graph) {
 	scanf("%zu", &nbNodeSource);
 	bool nodeSourceExists = graph_node_exists(graph, nbNodeSource);
 	if (!nodeSourceExists) {
-		fprintf(stderr, "Le noeud source n'existe pas.");
+		fprintf(stderr, "Le noeud source n'existe pas.\n");
 		return false;
 	}
 	size_t nbNodeDestination = 0;
 	fprintf(stdout, "Entrez le numéro du noeud destination.\n");
 	scanf("%zu", &nbNodeDestination);
+	getchar();
 	bool nodeDestinationExists = graph_node_exists(graph, nbNodeDestination);
 	if (!nodeDestinationExists) {
-		fprintf(stderr, "Le noeud destination n'existe pas.");
+		fprintf(stderr, "Le noeud destination n'existe pas.\n");
 		return false;
 	}
-	graph_add_edge(graph, nbNodeSource, nbNodeDestination , 1);
+	int weight = 0;
+	fprintf(stdout, "Entrez le poids de la transition.\n");
+	scanf("%d", &weight);
+	getchar();
+	bool symetrique = !graph->isDirected;
+	if (!symetrique) {
+		char charSymetrique = 'Y';
+		fprintf(stdout, "La transition est-elle symétrique ? [Y/n]\n");
+		scanf("%c", &charSymetrique);
+		if (charSymetrique == 'Y' || charSymetrique == 'y' || charSymetrique == '\n') {
+			symetrique = true;
+		}
+	}
+	graph_add_edge(graph, nbNodeSource, nbNodeDestination, weight, symetrique);
 	return true;
 }
+
+bool main_graph_remove_node(struct graph *graph) {
+	size_t nbNode = 0;
+	fprintf(stdout, "Entrez le numéro du noeud à supprimer.\n");
+	scanf("%zu", &nbNode);
+	getchar();
+	bool res = false;
+	graph_remove_node(graph, nbNode);
+	return res;
+}
+
+bool main_graph_remove_edge(struct graph *graph) {
+	size_t nbNodeSource = 0, nbNodeDestination = 0;
+	fprintf(stdout, "Entrez le numéro du noeud source de la transition.\n");
+	scanf("%zu", &nbNodeSource);
+	getchar();
+	bool nodeSourceExists = graph_node_exists(graph, nbNodeSource);
+	if (!nodeSourceExists) {
+		fprintf(stderr, "Le noeud source n'existe pas.\n");
+		return false;
+	}
+	fprintf(stdout, "Entrez le numéro du noeud source de la transition.\n");
+	scanf("%zu", &nbNodeDestination);
+	getchar();
+	bool nodeDestinationExists = graph_node_exists(graph, nbNodeDestination);
+	if (!nodeDestinationExists) {
+		fprintf(stderr, "Le noeud desination n'existe pas.\n");
+		return false;
+	}
+	bool symetrique = !graph->isDirected;
+	if (!symetrique) {
+		char charSymetrique = 'Y';
+		fprintf(stdout, "La transition est-elle symétrique ? [Y/n]\n");
+		scanf("%c", &charSymetrique);
+		if (charSymetrique == 'Y' || charSymetrique == 'y' || charSymetrique == '\n') {
+			symetrique = true;
+		}
+	}
+	graph_remove_edge(graph, nbNodeSource, nbNodeDestination, symetrique);
+	return true;
+}
+
 
 /*
  * Affiche un graphe sur la sortie standard du terminal.
@@ -112,20 +170,6 @@ void main_save_graph(struct graph *graph) {
 
 
 int main(int argc, char **argv) {
-// 	struct graph *main_graph = malloc(sizeof(struct graph));
-// 	graph_create(main_graph, false, 10);
-// 	graph_create_neighbour(main_graph, 1);
-// 	graph_create_neighbour(main_graph, 2);
-// 	graph_create_neighbour(main_graph, 3);
-// 	graph_add_neighbour(main_graph, 1, 1, 0);
-// 	graph_add_neighbour(main_graph, 1, 2, 0);
-// 	graph_add_neighbour(main_graph, 1, 3, 0);
-// 	
-// // 	save_graph(&test);
-// 	graph_dump(main_graph, stdout);
-// 	graph_destroy(main_graph);
-// 	free(main_graph);
-// 	return 0;
 	struct graph *main_graph = NULL;
 	struct global_menu testMenu;
 	global_menu_create(&testMenu);
@@ -139,26 +183,24 @@ int main(int argc, char **argv) {
 					fprintf(stderr, "Échec dans la création du graphe.\n");
 				}
 				else {
-					fprintf(stdout, "Création du graphe avec réussite.\n");
+					fprintf(stdout, "Création du graphe réussie.\n");
 					global_menu_activate_main_menu(&testMenu);
 				}
 				break;
 			case COMMAND_CODE_LOAD :
-				printf("Non implémenté");
+				fprintf(stderr, "Non implémenté");
 				break;
 			case COMMAND_CODE_ADD_NODE :
 				main_graph_add_node(main_graph);
-// 				printf("Non implémenté");
 				break;
 			case COMMAND_CODE_ADD_EDGE :
 				main_graph_add_edge(main_graph);
-// 				printf("Non implémenté");
 				break;
 			case COMMAND_CODE_REMOVE_NODE :
-				printf("Non implémenté");
+				main_graph_remove_node(main_graph);
 				break;
 			case COMMAND_CODE_REMOVE_EDGE :
-				printf("Non implémenté");
+				main_graph_remove_edge(main_graph);
 				break;
 			case COMMAND_CODE_VIEW_GRAPH :
 				main_view_graph(main_graph);
