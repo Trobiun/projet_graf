@@ -5,6 +5,7 @@
 //taille d'un buffer pour les entrées de noms de fichiers (sauvegarder ou charger un fichier)
 #define BUFSIZE 1024
 
+
 /*
  * Demande à l'utilisateur les informations pour créer le graphe, et le crée s'il n'y a pas d'erreur
  * Returns : Retourne un pointeur sur le graphe créé
@@ -34,6 +35,7 @@ struct graph *main_create_graph() {
 	return res;
 }
 
+
 /*
  * Demande à l'utilisateur les informations pour charger le graphe depuis un fichier.
  * Returns : Retourne un pointeur vers le graphe chargé
@@ -50,6 +52,7 @@ struct graph *main_load_graph() {
 	return NULL;
 }
 
+
 /*
  * Demande à l'utilisateur les informations pour créer un noeud et le crée s'il n'y a pas d'erreur.
  * Params :	graph	: le graph dans lequel ajouter un noeud
@@ -63,6 +66,7 @@ bool main_graph_add_node(struct graph *graph) {
 	bool res = graph_create_node(graph, nbNode);
 	return res;
 }
+
 
 /*
  * Demande à l'utilisateur les informations pour ajouter une transition et la crée s'il n'y a pas d'erreur.
@@ -104,15 +108,23 @@ bool main_graph_add_edge(struct graph *graph) {
 	return true;
 }
 
+
+/*
+ * 
+ */
 bool main_graph_remove_node(struct graph *graph) {
 	size_t nbNode = 0;
 	fprintf(stdout, "Entrez le numéro du noeud à supprimer.\n");
 	scanf("%zu", &nbNode);
 	getchar();
-	bool res = false;
+	bool nodeExists = graph_node_exists(graph, nbNode);
+	if (!nodeExists) {
+		fprintf(stderr, "Le noeud %d n'existe pas.\n", nbNode);
+		return false;
+	}
 	graph_remove_node(graph, nbNode);
-	return res;
 }
+
 
 bool main_graph_remove_edge(struct graph *graph) {
 	size_t nbNodeSource = 0, nbNodeDestination = 0;
@@ -153,6 +165,7 @@ bool main_graph_remove_edge(struct graph *graph) {
 void main_view_graph(struct graph *graph) {
 	graph_dump(graph, stdout);
 }
+
 
 /*
  * Sauvegarde un graphe dans un fichier (le nom du fichier est entré par l'utilisateur)

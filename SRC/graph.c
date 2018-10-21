@@ -10,9 +10,11 @@ int nb_node_to_index(size_t nbNode) {
 	return -1;
 }
 
+
 size_t index_to_nb_node(size_t index) {
 	return index + 1;
 }
+
 
 void graph_create(struct graph *self, bool isDirected, size_t nbMaxNodes) {
 	if (self != NULL) {
@@ -25,6 +27,7 @@ void graph_create(struct graph *self, bool isDirected, size_t nbMaxNodes) {
 	}
 }
 
+
 void graph_destroy_node_index(struct graph *self, size_t indexNode) {
 	if (self != NULL) {
 		while (self->adjList[indexNode] != NULL) {
@@ -32,6 +35,7 @@ void graph_destroy_node_index(struct graph *self, size_t indexNode) {
 		}
 	}
 }
+
 
 void graph_destroy(struct graph *self) {
 	if (self != NULL) {
@@ -42,6 +46,7 @@ void graph_destroy(struct graph *self) {
 	}
 }
 
+
 bool graph_node_is_valid_nb(struct graph *self, size_t nbNode) {
 	bool res = false;
 	if (self != NULL) {
@@ -49,6 +54,7 @@ bool graph_node_is_valid_nb(struct graph *self, size_t nbNode) {
 	}
 	return res;
 }
+
 
 bool graph_node_is_valid_index(struct graph *self, size_t indexNode) {
 	bool res = false;
@@ -58,14 +64,17 @@ bool graph_node_is_valid_index(struct graph *self, size_t indexNode) {
 	return res;
 }
 
+
 bool graph_node_exists(struct graph *self, size_t nbNode) {
 	int indexNode = nb_node_to_index(nbNode);
 	return graph_node_is_valid_nb(self, nbNode) && self->adjList[indexNode] != NULL;
 }
 
+
 bool graph_node_exists_index(struct graph *self, size_t indexNode) {
 	return graph_node_is_valid_index(self, indexNode) && self->adjList[indexNode] != NULL;
 }
+
 
 bool graph_create_node(struct graph *self, size_t nbNode) {
 	int indexNode = nb_node_to_index(nbNode);
@@ -79,6 +88,7 @@ bool graph_create_node(struct graph *self, size_t nbNode) {
 	}
 	return false;
 }
+
 
 bool graph_add_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestination, int weight, bool symetrique) {
 	bool result = false;
@@ -105,6 +115,7 @@ bool graph_add_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestin
 	return false;
 }
 
+
 void graph_remove_node(struct graph *self, size_t nbNode) {
 	if (self != NULL && self->adjList != NULL) {
 		int indexNode = nb_node_to_index(nbNode);
@@ -120,6 +131,7 @@ void graph_remove_node(struct graph *self, size_t nbNode) {
 	}
 }
 
+
 void graph_remove_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestination, bool symetrique) {
 	if (self != NULL && self->adjList != NULL) {
 		int indexSource = nb_node_to_index(nbNodeSource);
@@ -132,6 +144,7 @@ void graph_remove_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDes
 		}
 	}
 }
+
 
 void graph_dump(struct graph *self, FILE* file) {
 	if (self != NULL && file != NULL) {
@@ -154,12 +167,3 @@ void graph_dump(struct graph *self, FILE* file) {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-

@@ -18,11 +18,13 @@ void option_create(struct option *self, int code, int result, char *text) {
 	}
 }
 
+
 void option_destroy(struct option *self) {
 	if (self != NULL) {
 		free(self->text);
 	}
 }
+
 
 void menu_set_option(struct menu *self, size_t index, int code, int result, char *text) {
 	if (self != NULL && index >= 0 && index < self->nbOptions && self->options[index] == NULL) {
@@ -30,6 +32,7 @@ void menu_set_option(struct menu *self, size_t index, int code, int result, char
 		option_create(self->options[index], code, result, text);
 	}
 }
+
 
 void create_first_menu(struct menu *self) {
 	if (self != NULL) {
@@ -55,6 +58,7 @@ void create_first_menu(struct menu *self) {
 		menu_set_option(self, index, codeCommand, COMMAND_CODE_QUIT, "quit");
 	}
 }
+
 
 void create_main_menu(struct menu *self) {
 	if (self != NULL) {
@@ -99,6 +103,7 @@ void create_main_menu(struct menu *self) {
 	}
 }
 
+
 void menu_destroy(struct menu *self) {
 	if (self != NULL) {
 		for (size_t i = 0; i < self->nbOptions; i++) {
@@ -108,6 +113,7 @@ void menu_destroy(struct menu *self) {
 		free(self->options);
 	}
 }
+
 
 void global_menu_create(struct global_menu *self) {
 	if (self != NULL) {
@@ -119,6 +125,7 @@ void global_menu_create(struct global_menu *self) {
 	}
 }
 
+
 void global_menu_destroy(struct global_menu *self) {
 	if (self != NULL) {
 		menu_destroy(self->firstMenu);
@@ -128,6 +135,7 @@ void global_menu_destroy(struct global_menu *self) {
 	}
 }
 
+
 bool menu_is_valid_option(struct menu *self, int option) {
 	bool res = false;
 	if (self != NULL) {
@@ -135,6 +143,7 @@ bool menu_is_valid_option(struct menu *self, int option) {
 	}
 	return res;
 }
+
 
 int menu_show(struct menu *self) {
 	int res = ERREUR_SAISIE_OPTION;
@@ -154,6 +163,7 @@ int menu_show(struct menu *self) {
 	return res;
 }
 
+
 void global_menu_activate_main_menu(struct global_menu *self) {
 	if (self != NULL) {
 		self->firstMenuToShow = false;
@@ -164,6 +174,7 @@ void global_menu_activate_main_menu(struct global_menu *self) {
 		self->firstMenu = NULL;
 	}
 }
+
 
 void global_menu_show(struct global_menu *self) {
 	if (self != NULL) {
