@@ -114,9 +114,8 @@ void global_menu_create(struct global_menu *self) {
 		self->firstMenuToShow = true;
 		self->selectedOption = 0;
 		self->firstMenu = malloc(sizeof(struct menu));
-		self->mainMenu = malloc(sizeof(struct menu));
+		self->mainMenu = NULL;
 		create_first_menu(self->firstMenu);
-		create_main_menu(self->mainMenu);
 	}
 }
 
@@ -158,11 +157,15 @@ int menu_show(struct menu *self) {
 void global_menu_activate_main_menu(struct global_menu *self) {
 	if (self != NULL) {
 		self->firstMenuToShow = false;
+		self->mainMenu = malloc(sizeof(struct menu));
+		create_main_menu(self->mainMenu);
+		menu_destroy(self->firstMenu);
+		free(self->firstMenu
+;		)
 	}
 }
 
-int global_menu_show(struct global_menu *self) {
-	int res = 0;
+void global_menu_show(struct global_menu *self) {
 	if (self != NULL) {
 		int choix = 0;
 		if (self->firstMenuToShow) {
@@ -173,5 +176,4 @@ int global_menu_show(struct global_menu *self) {
 		}
 		self->selectedOption = choix;
 	}
-	return res;
 }

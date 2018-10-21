@@ -4,15 +4,35 @@
 
 #define BUFSIZE 1024
 
+/*
+ * 
+ */
 struct graph *main_create_graph() {
-	size_t nbNodes =  0;
-	printf("Entrez le nombre maximal de noeuds pour le graph\n");
-	scanf("%zu",&nbNodes);
 	struct graph *res = NULL;
+	size_t nbNodes =  0;
+	bool directed = true;
+	char charDirected = 'Y';
+	fprintf(stdout, "Entrez le nombre maximal de noeuds pour le graph\n");
+	scanf("%zu",&nbNodes);
+	getchar();
 	if (nbNodes > 0) {
 		res = malloc(sizeof(struct graph));
 		if (res != NULL) {
-			graph_create(res, false, nbNodes);
+			fprintf(stdout, "Voulez-vous que le graphe soit dirigé ? [Y/n]");
+			scanf("%c", &charDirected);
+			if (charDirected != 'Y' && charDirected != 'y' && charDirected != '\n') {
+				directed = false;
+			}
+// 			if (directed) {
+// 				printf("true");
+// 			}
+// 			else {
+// 				printf("false");
+// 			}
+			graph_create(res, directed, nbNodes);
+		}
+		else {
+			fprintf(stderr, "Erreur dans la création du graphe.\n");
 		}
 	}
 	return res;
@@ -21,17 +41,17 @@ struct graph *main_create_graph() {
 struct graph *main_load_graph() {
 	char filename[BUFSIZE];
 	FILE *file;
-	printf("Entrez le nom du fichier à charger.\n");
+	fprintf(stdout, "Entrez le nom du fichier à charger.\n");
 	scanf("%s", filename);
 	file = fopen(filename, "r");
-	
+	//faire le chargement du graphe
 	fclose(file);
 	return NULL;
 }
 
 bool main_graph_add_node(struct graph *graph) {
 	size_t nbNode = 0;
-	printf("Entrez le numéro du noeud que vous voulez ajouter.\n");
+	fprintf(stdout, "Entrez le numéro du noeud que vous voulez ajouter.\n");
 	scanf("%zu", &nbNode);
 	bool res = graph_create_node(graph, nbNode);
 	return res;
@@ -39,7 +59,7 @@ bool main_graph_add_node(struct graph *graph) {
 
 bool main_graph_add_edge(struct graph *graph) {
 	size_t nbNodeSource = 0;
-	printf("Entrez le numéro du noeud source.\n");
+	fprintf(stdout, "Entrez le numéro du noeud source.\n");
 	scanf("%zu", &nbNodeSource);
 	bool nodeSourceExists = graph_node_exists(graph, nbNodeSource);
 	if (!nodeSourceExists) {
@@ -47,7 +67,7 @@ bool main_graph_add_edge(struct graph *graph) {
 		return false;
 	}
 	size_t nbNodeDestination = 0;
-	printf("Entrez le numéro du noeud destination.\n");
+	fprintf(stdout, "Entrez le numéro du noeud destination.\n");
 	scanf("%zu", &nbNodeDestination);
 	bool nodeDestinationExists = graph_node_exists(graph, nbNodeDestination);
 	if (!nodeDestinationExists) {
@@ -65,7 +85,7 @@ void main_view_graph(struct graph *graph) {
 void main_save_graph(struct graph *graph) {
 	char filename[BUFSIZE];
 	FILE *file;
-	printf("Entrez le nom de fichier pour sauvegarder le graph\n");
+	fprintf(stdout, "Entrez le nom de fichier pour sauvegarder le graph\n");
 	scanf("%s", filename);
 	file = fopen(filename, "w");
 	graph_dump(graph, file);

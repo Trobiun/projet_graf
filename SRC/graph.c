@@ -74,7 +74,7 @@ bool graph_create_node(struct graph *self, size_t nbNode) {
 	return false;
 }
 
-void graph_add_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestination, int weight) {
+bool graph_add_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestination, int weight) {
 	size_t indexNodeSource = nb_node_to_index(nbNodeSource);
 	size_t indexNodeDest = nb_node_to_index(nbNodeDestination);
 	if (self != NULL) {
@@ -97,11 +97,13 @@ void graph_add_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestin
 // 					}
 // 					else {
 						neighbour_add_start(self->adjList + indexNodeSource, add);
+						return true;
 // 					}
 				}
 			}
 		}
 	}
+	return false;
 }
 
 void graph_dump(struct graph *self, FILE* file) {
