@@ -14,7 +14,13 @@ void graph_create(struct graph *self, bool isDirected, size_t nbMaxNodes);
 
 void graph_destroy(struct graph *self);
 
-void graph_add_neighbour(struct graph *self, size_t nbNode, int neighbour, int weight);
+bool graph_is_valid_nb_node(struct graph *self, size_t nbNode);
+
+bool graph_node_exists(struct graph *self, size_t nbNode);
+
+bool graph_create_node(struct graph *self , size_t nbNode);
+
+void graph_add_edge(struct graph *self, size_t nbNode, size_t neighbour, int weight);
 
 void graph_dump(struct graph *self, FILE* file);
 

@@ -7,6 +7,8 @@
 #include <string.h>
 
 
+#define ERREUR_SAISIE_OPTION -2
+
 #define COMMAND_CODE_QUIT -1
 
 #define COMMAND_CODE_CREATE 1
@@ -57,5 +59,7 @@ void global_menu_destroy(struct global_menu *self);
 int menu_show(struct menu *menu);
 
 int global_menu_show(struct global_menu *menu);
+
+void global_menu_activate_main_menu(struct global_menu *self);
 
 #endif // MENU_H

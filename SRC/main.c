@@ -18,15 +18,56 @@ struct graph *main_create_graph() {
 	return res;
 }
 
+struct graph *main_load_graph() {
+	char filename[BUFSIZE];
+	FILE *file;
+	printf("Entrez le nom du fichier à charger.\n");
+	scanf("%s", filename);
+	file = fopen(filename, "r");
+	
+	fclose(file);
+	return NULL;
+}
+
+bool main_graph_add_node(struct graph *graph) {
+	size_t nbNode = 0;
+	printf("Entrez le numéro du noeud que vous voulez ajouter.\n");
+	scanf("%zu", &nbNode);
+	bool res = graph_create_node(graph, nbNode);
+	return res;
+}
+
+bool main_graph_add_edge(struct graph *graph) {
+	size_t nbNodeSource = 0;
+	printf("Entrez le numéro du noeud source.\n");
+	scanf("%zu", &nbNodeSource);
+	bool nodeSourceExists = graph_node_exists(graph, nbNodeSource);
+	if (!nodeSourceExists) {
+		fprintf(stderr, "Le noeud source n'existe pas.");
+		return false;
+	}
+	size_t nbNodeDestination = 0;
+	printf("Entrez le numéro du noeud destination.\n");
+	scanf("%zu", &nbNodeDestination);
+	bool nodeDestinationExists = graph_node_exists(graph, nbNodeDestination);
+	if (!nodeDestinationExists) {
+		fprintf(stderr, "Le noeud destination n'existe pas.");
+		return false;
+	}
+	graph_add_edge(graph, nbNodeSource, nbNodeDestination , 1);
+	return true;
+}
+
 void main_view_graph(struct graph *graph) {
 	graph_dump(graph, stdout);
 }
 
 void main_save_graph(struct graph *graph) {
+	char filename[BUFSIZE];
+	FILE *file;
 	printf("Entrez le nom de fichier pour sauvegarder le graph\n");
-	char buffer[BUFSIZE];
-	scanf("%s", buffer);
-	FILE *file = fopen(buffer, "w");
+	scanf("%s", filename);
+	file = fopen(filename, "w");
 	graph_dump(graph, file);
 	fclose(file);
 }
@@ -34,13 +75,16 @@ void main_save_graph(struct graph *graph) {
 
 int main(int argc, char **argv) {
 // 	struct graph *main_graph = malloc(sizeof(struct graph));
-// 	create_graph(main_graph, false, 10);
-// 	graph_add_neighbour(main_graph, 0, 1, 0);
-// 	graph_add_neighbour(main_graph, 0, 2, 0);
-// 	graph_add_neighbour(main_graph, 0, 3, 0);
+// 	graph_create(main_graph, false, 10);
+// 	graph_create_neighbour(main_graph, 1);
+// 	graph_create_neighbour(main_graph, 2);
+// 	graph_create_neighbour(main_graph, 3);
+// 	graph_add_neighbour(main_graph, 1, 1, 0);
+// 	graph_add_neighbour(main_graph, 1, 2, 0);
+// 	graph_add_neighbour(main_graph, 1, 3, 0);
 // 	
 // // 	save_graph(&test);
-// // 	graph_dump(main_graph, stdout);
+// 	graph_dump(main_graph, stdout);
 // 	graph_destroy(main_graph);
 // 	free(main_graph);
 // 	return 0;
@@ -54,20 +98,23 @@ int main(int argc, char **argv) {
 			case COMMAND_CODE_CREATE :
 				main_graph = main_create_graph();
 				if (main_graph == NULL) {
-					fprintf(stderr, "Échec dans la création du graphe\n");
+					fprintf(stderr, "Échec dans la création du graphe.\n");
 				}
 				else {
-					
+					fprintf(stdout, "Création du graphe avec réussite.\n");
+					global_menu_activate_main_menu(&testMenu);
 				}
 				break;
 			case COMMAND_CODE_LOAD :
 				printf("Non implémenté");
 				break;
 			case COMMAND_CODE_ADD_NODE :
-				printf("Non implémenté");
+				main_graph_add_node(main_graph);
+// 				printf("Non implémenté");
 				break;
 			case COMMAND_CODE_ADD_EDGE :
-				printf("Non implémenté");
+				main_graph_add_edge(main_graph);
+// 				printf("Non implémenté");
 				break;
 			case COMMAND_CODE_REMOVE_NODE :
 				printf("Non implémenté");
@@ -81,7 +128,6 @@ int main(int argc, char **argv) {
 			case COMMAND_CODE_SAVE_GRAPH :
 				main_save_graph(main_graph);
 				break;
-			
 		}
 	} while (testMenu.selectedOption != COMMAND_CODE_QUIT);
 	if (main_graph != NULL) {

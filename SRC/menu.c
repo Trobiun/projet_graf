@@ -1,7 +1,5 @@
 #include "menu.h"
 
-#define ERREUR_SAISIE_OPTION -2
-
 #define NB_OPTIONS_FIRST_MENU 2
 #define NB_OPTIONS_MAIN_MENU 6
 
@@ -157,15 +155,18 @@ int menu_show(struct menu *self) {
 	return res;
 }
 
+void global_menu_activate_main_menu(struct global_menu *self) {
+	if (self != NULL) {
+		self->firstMenuToShow = false;
+	}
+}
+
 int global_menu_show(struct global_menu *self) {
 	int res = 0;
 	if (self != NULL) {
 		int choix = 0;
 		if (self->firstMenuToShow) {
 			choix = menu_show(self->firstMenu);
-			if (choix != ERREUR_SAISIE_OPTION) {
-				self->firstMenuToShow = false;
-			}
 		}
 		else {
 			choix = menu_show(self->mainMenu);
