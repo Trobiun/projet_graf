@@ -2,10 +2,12 @@
 #include "neighbour.h"
 #include "menu.h"
 
+//taille d'un buffer pour les entrées de noms de fichiers (sauvegarder ou charger un fichier)
 #define BUFSIZE 1024
 
 /*
- * 
+ * Demande à l'utilisateur les informations pour créer le graphe, et le crée s'il n'y a pas d'erreur
+ * Returns : Retourne un pointeur sur le graphe créé
  */
 struct graph *main_create_graph() {
 	struct graph *res = NULL;
@@ -23,12 +25,6 @@ struct graph *main_create_graph() {
 			if (charDirected != 'Y' && charDirected != 'y' && charDirected != '\n') {
 				directed = false;
 			}
-// 			if (directed) {
-// 				printf("true");
-// 			}
-// 			else {
-// 				printf("false");
-// 			}
 			graph_create(res, directed, nbNodes);
 		}
 		else {
@@ -38,6 +34,10 @@ struct graph *main_create_graph() {
 	return res;
 }
 
+/*
+ * Demande à l'utilisateur les informations pour charger le graphe depuis un fichier.
+ * Returns : Retourne un pointeur vers le graphe chargé
+ */
 struct graph *main_load_graph() {
 	char filename[BUFSIZE];
 	FILE *file;
@@ -49,6 +49,11 @@ struct graph *main_load_graph() {
 	return NULL;
 }
 
+/*
+ * Demande à l'utilisateur les informations pour créer un noeud et le crée s'il n'y a pas d'erreur.
+ * Params :	graph	: le graph dans lequel ajouter un noeud
+ * Returns : Retourne un booléen, vrai si le noeud a bien été ajouté, faux sinon
+ */
 bool main_graph_add_node(struct graph *graph) {
 	size_t nbNode = 0;
 	fprintf(stdout, "Entrez le numéro du noeud que vous voulez ajouter.\n");
@@ -57,6 +62,11 @@ bool main_graph_add_node(struct graph *graph) {
 	return res;
 }
 
+/*
+ * Demande à l'utilisateur les informations pour ajouter une transition et la crée s'il n'y a pas d'erreur.
+ * Params :	graph	: le graphe dans lequel ajouter la transition
+ * Returns : Retourne un booléen, vrai si la transition a été ajoutée, faux sinon
+ */
 bool main_graph_add_edge(struct graph *graph) {
 	size_t nbNodeSource = 0;
 	fprintf(stdout, "Entrez le numéro du noeud source.\n");
@@ -78,10 +88,18 @@ bool main_graph_add_edge(struct graph *graph) {
 	return true;
 }
 
+/*
+ * Affiche un graphe sur la sortie standard du terminal.
+ * Params : 	graph	: le graphe à afficher
+ */
 void main_view_graph(struct graph *graph) {
 	graph_dump(graph, stdout);
 }
 
+/*
+ * Sauvegarde un graphe dans un fichier (le nom du fichier est entré par l'utilisateur)
+ * Params :	graph	: le graph à sauvegarder
+ */
 void main_save_graph(struct graph *graph) {
 	char filename[BUFSIZE];
 	FILE *file;

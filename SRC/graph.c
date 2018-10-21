@@ -78,7 +78,6 @@ bool graph_add_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestin
 	size_t indexNodeSource = nb_node_to_index(nbNodeSource);
 	size_t indexNodeDest = nb_node_to_index(nbNodeDestination);
 	if (self != NULL) {
-// 		size_t indexNeighbour = nb_node_to_index(nbNodeDestination);
 		if (graph_node_exists_index(self, indexNodeSource) && graph_node_exists_index(self, indexNodeDest)) {
 			if (self->adjList != NULL) {
 				//ajoute le neighbour seulement s'il n'est pas déjà présent

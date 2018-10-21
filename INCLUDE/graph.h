@@ -11,6 +11,20 @@ struct graph {
 };
 
 /*
+ * 'Convertit' un numéro de node en son équivalent en indice d'un tableau
+ * Params : 	nbNode	: le numéro de noeud
+ * Returns : Retourne l'indice dans lequel est censé se trouver le noeud qui a pour numéro 'nbNode'
+ */
+size_t nb_node_to_index(size_t nbNode);
+
+/*
+ * 'Convertit' un indice en son équivalent en numéro de noeud
+ * Params : 	index	: l'indice du noeud dans le tableau
+ * Returns : Retourne le numéro de noeud qui a pour indice 'index'
+ */
+size_t index_to_nb_node(size_t index);
+
+/*
  * Initialise un graphe dirigé ou non, et avec un nombre maximum de noeuds
  * Params :	self		: le graphe à initialiser
  * 			isDirected	: booléen pour déterminer si le graphe est dirigé ou non
@@ -30,7 +44,7 @@ void graph_destroy(struct graph *self);
  * 			nbNode	: le numéro du noeud à vérifier dans le graphe
  * Returns : Retourne un booléen, vrai si le numéro du noeud est valide, faux sinon
  */
-bool graph_is_valid_nb_node(struct graph *self, size_t nbNode);
+bool graph_node_is_valid_nb(struct graph *self, size_t nbNode);
 
 /*
  * Détermine si un noeud existe dans un graphe.

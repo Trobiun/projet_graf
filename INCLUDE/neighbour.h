@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+//structure d'un élément dans la liste chaînée
 struct neighbour {
 	int neighbour;
 	int weight;
@@ -12,9 +13,6 @@ struct neighbour {
 	struct neighbour* previousNeighbour;
 };
 
-size_t nb_node_to_index(size_t nbNode);
-
-size_t index_to_nb_node(size_t index);
 
 /*
  * Initialise une structure de type neighbour avec comme voisin 'neighbour' et comme poids de transition 'weight'.
@@ -31,18 +29,18 @@ void neighbour_create(struct neighbour *self, int neighbour, int weight);
 void neighbour_destroy_start(struct neighbour **start);
 
 /*
- * Ajoute un noeud à la fin de la liste chaînée.
- * Params :	start	: le pointeur vers le pointeur du début de liste
- * 			add		: le pointeur vers la structure neighbour à ajouter en fin de liste
- */
-void neighbour_add_end(struct neighbour **start, struct neighbour *add);
-
-/*
  * Ajoute un noeud au début de la liste chaînée.
  * Params :	start	: le pointeur du pointeur du début de liste
  * 			add		: le pointeur vers la structure neighbour à ajouter en fin de liste
  */
 void neighbour_add_start(struct neighbour **start, struct neighbour *add);
+
+/*
+ * Ajoute un noeud à la fin de la liste chaînée.
+ * Params :	start	: le pointeur vers le pointeur du début de liste
+ * 			add		: le pointeur vers la structure neighbour à ajouter en fin de liste
+ */
+void neighbour_add_end(struct neighbour **start, struct neighbour *add);
 
 /*
  * Supprime un noeud dans une liste chaînée

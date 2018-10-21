@@ -160,8 +160,8 @@ void global_menu_activate_main_menu(struct global_menu *self) {
 		self->mainMenu = malloc(sizeof(struct menu));
 		create_main_menu(self->mainMenu);
 		menu_destroy(self->firstMenu);
-		free(self->firstMenu
-;		)
+		free(self->firstMenu);
+		self->firstMenu = NULL;
 	}
 }
 

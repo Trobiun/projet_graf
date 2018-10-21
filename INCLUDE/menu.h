@@ -79,6 +79,18 @@ void menu_destroy(struct menu *self);
 void menu_set_option(struct menu *self, size_t index, int code, int result, char *text);
 
 /*
+ * Initialise le premier menu.
+ * Params :	self	: le premier menu à initialiser
+ */
+void create_first_menu(struct menu *self);
+
+/*
+ * Initialise le menu principal.
+ * Params :	self	: le menu principal à initialiser
+ */
+void create_main_menu(struct menu *self);
+
+/*
  * Initialise le menu global.
  * Params :	self	: le menu global à initialiser
  */
@@ -91,9 +103,17 @@ void global_menu_create(struct global_menu *self);
 void global_menu_destroy(struct global_menu *self);
 
 /*
+ * Détermine si une option est valide pour un menu (si le numéro entré est correct)
+ * Params :	self	: le  menu auquel vérifier si l'option est correcte
+ * 			option	: le numéro d'option à vérifier
+ * Returns : Retourne un booléen, faux si le numéro d'option est invalide, vrai sinon
+ */
+bool menu_is_valid_option(struct menu *self, int option);
+
+/*
  * Affiche un menu et retourne la valeur donnée par l'utilisateur
  * Params :	menu	: le menu à afficher
- * Returns : Retourne un entier donné par l'utilisateur, 
+ * Returns : Retourne un entier donné par l'utilisateur qui correspond à son choix
  */
 int menu_show(struct menu *menu);
 
@@ -104,7 +124,7 @@ int menu_show(struct menu *menu);
 void global_menu_show(struct global_menu *self);
 
 /*
- * Crée et active le menu principal (le premier menu n'est plus utile une fois le graphe créé ou chargé).
+ * Crée et active le menu principal et détruit le premier menu (le premier menu n'est plus utile une fois le graphe créé ou chargé).
  * Params :	self	: le menu global dans lequel activer le menu principal.
  */
 void global_menu_activate_main_menu(struct global_menu *self);
