@@ -110,7 +110,9 @@ bool main_graph_add_edge(struct graph *graph) {
 
 
 /*
- * 
+ * Demande à l'utilisateur les informations pour supprimer un noeud et le supprime s'il existe.
+ * Params :	graph	: le graphe dans lequel supprimer le noeud
+ * Returns : Retourne un booléen, vrai si la suppression a été effectuée, faux sinon
  */
 bool main_graph_remove_node(struct graph *graph) {
 	size_t nbNode = 0;
@@ -127,6 +129,11 @@ bool main_graph_remove_node(struct graph *graph) {
 }
 
 
+/*
+ * Demande à l'utilisateur les informations pour supprimer une transition et la supprime si elle existe.
+ * Params :	graph	: le graphe dans lequel supprimer la transition
+ * Returns : Retourne un booléen, vrai si la suppression a été effectuée, faux sinon
+ */
 bool main_graph_remove_edge(struct graph *graph) {
 	size_t nbNodeSource = 0, nbNodeDestination = 0;
 	fprintf(stdout, "Entrez le numéro du noeud source de la transition.\n");
@@ -178,8 +185,13 @@ void main_save_graph(struct graph *graph) {
 	fprintf(stdout, "Entrez le nom de fichier pour sauvegarder le graph\n");
 	scanf("%s", filename);
 	file = fopen(filename, "w");
-	graph_dump(graph, file);
-	fclose(file);
+	if (file != NULL) {
+		graph_dump(graph, file);
+		fclose(file);
+	}
+	else {
+		fprintf(stderr, "Le fichier n'a pas pu être ouvert.\n");
+	}
 }
 
 
@@ -231,4 +243,6 @@ int main(int argc, char **argv) {
 	global_menu_destroy(&testMenu);
 	return 0;
 }
+
+
 

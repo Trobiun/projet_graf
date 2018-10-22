@@ -63,13 +63,6 @@ void option_destroy(struct option *self);
 
 
 /*
- * Initialise un menu.
- * Params :	self	: le menu à initialiser
- */
-void menu_create(struct menu *self);
-
-
-/*
  * Détruit un menu.
  * Params :	self	: le menu à détruire
  */
