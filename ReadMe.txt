@@ -6,7 +6,7 @@ How to launch the programm :
 
 To use the programm faster, this is possible to send multiple (corrects) inputs in the same time.
 It simply consists to separate wanted options by a character (for example space).
-First, the programm needs to be running and waiting an input, then you can type "1 11 n" and press enter, the graph will be created ("1") with 11 nodes maximum and it will not be directed ("n"). There is a file to create "automatically" 
+First, the programm needs to be running and waiting an input, then you can type "1 11 n" and press enter, the graph will be created ("1") with 11 nodes maximum and it will not be directed ("n"). There is a file to create "automatically" the graph as example in the subject, you can just copy/paste the line, the graph is created.
 
 
 Directories :
