@@ -112,7 +112,7 @@ bool graph_add_edge(struct graph *self, size_t nbNodeSource, size_t nbNodeDestin
 			}
 		}
 	}
-	return false;
+	return result;
 }
 
 

@@ -14,9 +14,11 @@ CC=gcc
 CFLAGS=-Wall -I$(INCLUDEDIR)
 LDFLAGS=-L$(LIBDIR) -lgraph -llist
 
-.PHONY: all libs
+.PHONY: all run libs
 all: $(EXEC)
-	
+
+run: $(EXEC)
+	$(EXEC)
 
 libs: $(LIBS)
 

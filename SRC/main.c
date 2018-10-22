@@ -64,6 +64,9 @@ bool main_graph_add_node(struct graph *graph) {
 	scanf("%zu", &nbNode);
 	getchar();
 	bool res = graph_create_node(graph, nbNode);
+	if (!res) {
+		fprintf(stderr, "Le noeud %zu n'a pas pu être créé.\n", nbNode);
+	}
 	return res;
 }
 
@@ -104,8 +107,11 @@ bool main_graph_add_edge(struct graph *graph) {
 			symetrique = true;
 		}
 	}
-	graph_add_edge(graph, nbNodeSource, nbNodeDestination, weight, symetrique);
-	return true;
+	bool res = graph_add_edge(graph, nbNodeSource, nbNodeDestination, weight, symetrique);
+	if (!res) {
+		fprintf(stderr, "La transition de %zu vers %zu n'a pas pu être créée.\n", nbNodeSource, nbNodeDestination);
+	}
+	return res;
 }
 
 
