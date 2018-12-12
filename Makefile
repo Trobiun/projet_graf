@@ -25,7 +25,7 @@ libs: $(LIBS)
 $(EXEC): $(OBJDIR)/main.o $(OBJDIR)/menu.o $(LIBS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $(EXEC) $^
 
-$(LIBGRAPH): $(OBJDIR)/graph.o
+$(LIBGRAPH): $(OBJDIR)/graph.o $(OBJDIR)/flow.o
 	ar rcs $@ $?
 
 $(LIBLIST): $(OBJDIR)/neighbour.o

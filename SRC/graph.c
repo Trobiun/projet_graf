@@ -156,10 +156,13 @@ void graph_dump(struct graph *self, FILE* file) {
 		else {
 			fprintf(file, "n");
 		}
-		fprintf(file, "\n# nodes: neighbours\n");
+		fprintf(file, "\n# nodes: [neighbour/capacity]\n");
 		size_t index;
 		for (index = 0; index < self->nbMaxNodes; index++) {
 			if (self->adjList[index] != NULL) {
+				if (self->nbMaxNodes >= 10 && index < 9) {
+					fprintf(file, "0");
+				}
 				fprintf(file, "%zu: ", index_to_nb_node(index));
 				neighbour_dump(self->adjList[index], file);
 				fprintf(file, "\n");
@@ -167,3 +170,4 @@ void graph_dump(struct graph *self, FILE* file) {
 		}
 	}
 }
+

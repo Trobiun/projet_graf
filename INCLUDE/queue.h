@@ -9,7 +9,7 @@ struct queue {
 	int head, tail;
 	int *q;
 	int *color;
-}
+};
 
 void queue_create(struct queue *self, size_t size);
 

@@ -20,12 +20,17 @@ Directories :
 Files :
  - Makefile				: the makefile to manage (compile, clean, run) the project
  - example.txt			: contains the sequence of inputs to create the example graph in the subject
+ - Report.odt			: the report
 
  - INCLUDE/neighbour.h	: header file for neighbour (linked list) structure, with declarations of functions
  - INCLUDE/graph.h		: header file for graph structure with declarations of functions
  - INCLUDE/menu.h		: header file for menu structures with declarations of functions and some constants to determine which command is selected
+ - INCLUDE/queue.h		: header file for queue structure with declarations of functions
+ - INCLUDE/flow.h		: header file for flow structure with declarations of functions
 
  - SRC/neighbour.c		: source file for neighbour (linked list) structure, provides basic operations (create, add neighbour, delete...)
  - SRC/graph.c			: source file for graph structure, provides basic operations (create, add node, add edge...)
  - SRC/menu.c			: source file for menu structures, provides basic operations (create, destroy, show)
  - SRC/main.c			: source file for main program that call functions to manage menus and the graph structure
+ - SRC/queue.c			: source file for queue structure, should be used to perform Breadth First Search algorithm
+ - SRC/flow.c			: source file for flow structure, should be used to perform Ford-Fulkerson algorithm

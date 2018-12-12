@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "neighbour.h"
+#include "flow.h"
 #include "menu.h"
 
 //taille d'un buffer pour les entrées de noms de fichiers (sauvegarder ou charger un fichier)
@@ -200,12 +201,28 @@ void main_save_graph(struct graph *graph) {
 	}
 }
 
+void main_select_source_node() {
+	
+}
+
+void main_select_sink_node() {
+	
+}
+
+void main_compute_maximum_flow() {
+	
+}
+
+void main_display_maximum_flow() {
+	
+}
 
 int main(int argc, char **argv) {
 	struct graph *main_graph = NULL;
 	struct global_menu testMenu;
 	global_menu_create(&testMenu);
 	testMenu.selectedOption = 0;
+	
 	do {
 		global_menu_show(&testMenu);
 		switch(testMenu.selectedOption) {
@@ -240,8 +257,21 @@ int main(int argc, char **argv) {
 			case COMMAND_CODE_SAVE_GRAPH :
 				main_save_graph(main_graph);
 				break;
+			case COMMAND_CODE_SELECT_SOURCE :
+				fprintf(stderr, "Non implémenté");
+				break;
+			case COMMAND_CODE_SELECT_SINK :
+				fprintf(stderr, "Non implémenté");
+				break;
+			case COMMAND_CODE_COMPUTE_MAXIMUM_FLOW :
+				fprintf(stderr, "Non implémenté");
+				break;
+			case COMMAND_CODE_DISPLAY_MAXIMUM_FLOW :
+				fprintf(stderr, "Non implémenté");
+				break;
 		}
 	} while (testMenu.selectedOption != COMMAND_CODE_QUIT);
+	
 	if (main_graph != NULL) {
 		graph_destroy(main_graph);
 		free(main_graph);

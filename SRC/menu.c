@@ -1,11 +1,11 @@
 #include "menu.h"
 
 #define NB_OPTIONS_FIRST_MENU 2
-#define NB_OPTIONS_MAIN_MENU 6
+#define NB_OPTIONS_MAIN_MENU 10
 
 //pour différencier le premier menu du menu principal
 #define COMMAND_CODE_QUIT_FIRST_MENU 3
-#define COMMAND_CODE_QUIT_MAIN_MENU 9
+#define COMMAND_CODE_QUIT_MAIN_MENU 13
 
 
 void option_create(struct option *self, int code, int result, char *text) {
@@ -97,6 +97,22 @@ void create_main_menu(struct menu *self) {
 		index = codeCommand - decrement;
 		menu_set_option(self, index, index + 1, codeCommand, "save graph");
 		
+		codeCommand = COMMAND_CODE_SELECT_SOURCE;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "select source");
+		
+		codeCommand = COMMAND_CODE_SELECT_SINK;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "select sink");
+		
+		codeCommand = COMMAND_CODE_COMPUTE_MAXIMUM_FLOW;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "compute maximum flow");
+		
+		codeCommand = COMMAND_CODE_DISPLAY_MAXIMUM_FLOW;
+		index = codeCommand - decrement;
+		menu_set_option(self, index, index + 1, codeCommand, "display maximum flow");
+		
 		codeCommand = COMMAND_CODE_QUIT_MAIN_MENU;
 		index = codeCommand - decrement;
 		menu_set_option(self, index, index + 1, COMMAND_CODE_QUIT, "quit");
@@ -152,6 +168,9 @@ int menu_show(struct menu *self) {
 		size_t index;
 		printf("\n");
 		for (index = 0; index < self->nbOptions; index++) {
+			if (self->nbOptions >= 10 && index < 9) {
+				printf("0");
+			}
 			printf("%d : %s\n", self->options[index]->codeCommand, self->options[index]->text);
 		}
 		scanf("%d", &choix);
